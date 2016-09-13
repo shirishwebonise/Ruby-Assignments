@@ -1,0 +1,1 @@
+## Ruby specific training assignments ##
