@@ -16,4 +16,4 @@ puts "\n===========Symbolic expression tree==========="
 pp Ripper.sexp(code_snippet)
 
 puts "\n===========YARV instruction set (compiled code)==========="
-pp RubyVM::InstructionSequence.compile("a = 1 + 2").to_a
+pp RubyVM::InstructionSequence.compile(code_snippet).to_a
