@@ -5,8 +5,9 @@ input_file = File.open(input_file_name)
 
 line_count = 0
 
-N = 0
+T = input_file.readline.chomp.to_i
 
+# method for calculating sum of array elements
 def sumOfNumbers(int_array)
 	if int_array
 		total = int_array.reduce(:+)
@@ -14,6 +15,7 @@ def sumOfNumbers(int_array)
 	total ? total : 0
 end
 
+# method to check the array for the required condition
 def containsSuchElement(int_array)
 	int_array.each_with_index do |item, index|
 		leftArray = int_array[0, index]
@@ -26,18 +28,19 @@ def containsSuchElement(int_array)
 	false
 end
 
-while !input_file.eof do
-	line_count += 1
 
-	# read a line
-	line =  input_file.readline
+# the main flow of program
+iterator = 0
+while iterator < T && !input_file.eof? do
+	iterator += 1
 
-	# skip first line
-	next if line_count == 1
+	# read a line - number of elements in the array
+	line =  input_file.readline.chomp.to_i
 
-	# second line of test case
+	# second line - the array elements
 	# read the line, split, convert string elements into integers
-	int_array = input_file.readline.split.map{ |num| num.to_i }
+	line = input_file.readline.chomp
+	int_array = line.split.map{ |num| num.to_i }
 
 	# check the array for given conditions
 	if( containsSuchElement(int_array) )
