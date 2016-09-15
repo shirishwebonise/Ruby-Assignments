@@ -2,24 +2,34 @@
 
 require './product'
 require './inventory'
+require './order'
 require 'pstore'
 
 inventory = Inventory.new
 
 # read the file for inventory
-dbstore = PStore.new("inventory")
-dbstore.transaction(true) do
-  dbstore.roots.each do |data_root_name|
-    inventory.add dbstore[data_root_name]
+dbInventory = PStore.new("inventory")
+dbInventory.transaction(true) do
+  dbInventory.roots.each do |data_root_name|
+    inventory.add dbInventory[data_root_name]
   end
 end
 
 # save a product in the file
 def saveProductInFile(product)
-	dbstore = PStore.new("inventory")
+	dbInventory = PStore.new("inventory")
 
-	dbstore.transaction do
-		dbstore[product.id] = product		
+	dbInventory.transaction do
+		dbInventory[product.id] = product		
+	end
+end
+
+# save a order in the file
+def saveOrderInFile(order)
+	dborders = PStore.new("orders")
+
+	dborders.transaction do
+		dborders[order.id] = order		
 	end
 end
 
@@ -54,7 +64,18 @@ while true do
 				search_name = gets.chomp
 				inventory.searchWithName search_name
 			when 3
-
+				print "\nenter order id "
+				order_id = gets.chomp
+				print "\nenter product id "
+				product_id = gets.chomp
+				print "\nenter buyer name "
+				buyer_name = gets.chomp
+				print "\nenter credit card number "
+				credit_card_number = gets.chomp
+				print "\nenter cvv "
+				cvv = gets.chomp.to_i
+				order = Order.new(order_id, product_id, buyer_name, credit_card_number, cvv)
+				saveOrderInFile order
 			when 4
 				exit
 			else
