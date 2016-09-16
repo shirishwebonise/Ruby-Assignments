@@ -15,21 +15,12 @@ dbInventory.transaction(true) do
   end
 end
 
-# save a product in the file
-def saveProductInFile(product)
-	dbInventory = PStore.new("inventory")
+# write data to file
+def saveToFile(fileName, data, key)
+	fileContent = PStore.new(fileName)
 
-	dbInventory.transaction do
-		dbInventory[product.id] = product		
-	end
-end
-
-# save a order in the file
-def saveOrderInFile(order)
-	dborders = PStore.new("orders")
-
-	dborders.transaction do
-		dborders[order.id] = order		
+	fileContent.transaction do
+		fileContent[key] = data
 	end
 end
 
@@ -75,7 +66,7 @@ while true do
 				print "\nenter cvv "
 				cvv = gets.chomp.to_i
 				order = Order.new(order_id, product_id, buyer_name, credit_card_number, cvv)
-				saveOrderInFile order
+				saveToFile("orders", order, order.id)
 			when 4
 				exit
 			else
@@ -110,7 +101,8 @@ while true do
 				product = Product.new(id, name, price, stock, company)
 				inventory.add product
 				print inventory.product id
-				saveProductInFile product
+				#saveProductInFile product
+				saveToFile("inventory", product, product.id)
 			when 2
 				print "\nenter product id of product to remove "
 				product_id = gets.chomp
