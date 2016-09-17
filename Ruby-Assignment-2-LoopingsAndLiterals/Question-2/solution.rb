@@ -3,33 +3,24 @@ input_file_name = "./input.txt"
 
 input_file = File.open(input_file_name)
 
-line_count = 0
-
-T = input_file.readline.chomp.to_i
-
 # method for checking common substring
-def hasCommonSubstring(string_A, string_B)
-	string_A.chomp.split('').each do |character|
-		return true if string_B.include? character
-	end
-	false
+def haveCommonSubstring(string_A, string_B)
+	intersection = string_A.chomp.split('') & string_B.chomp.split('')
+  intersection.length > 0
 end
 
+totalTests = input_file.readline.chomp.to_i
+
 # the main flow of program
-iterator = 0
-while iterator < T && !input_file.eof? do
-	iterator += 1
+totalTests.times do
+	# read string A
+	string_A = input_file.readline
 
-	line =  input_file.readline
-	# first string
-	string_A = line
-
-	line =  input_file.readline
 	# second string
-	string_B = line
+	string_B = input_file.readline
 
 	# check for common substring
-	if( hasCommonSubstring(string_A, string_B) )
+	if( haveCommonSubstring(string_A, string_B) )
 		puts "YES"
 	else
 		puts "NO"
