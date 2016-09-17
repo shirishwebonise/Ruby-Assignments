@@ -1,12 +1,6 @@
 
 input_file_name = "./input.txt"
 
-input_file = File.open(input_file_name)
-
-line_count = 0
-
-T = input_file.readline.chomp.to_i
-
 # method for calculating sum of array elements
 def sumOfNumbers(int_array)
 	if int_array
@@ -28,14 +22,16 @@ def containsSuchElement(int_array)
 	false
 end
 
+# read file
+input_file = File.open(input_file_name)
+
+# read number of test cases
+total_cases = input_file.readline.chomp.to_i
 
 # the main flow of program
-iterator = 0
-while iterator < T && !input_file.eof? do
-	iterator += 1
-
+total_cases.times do
 	# read a line - number of elements in the array
-	line =  input_file.readline.chomp.to_i
+	totalElements =  input_file.readline.chomp.to_i
 
 	# second line - the array elements
 	# read the line, split, convert string elements into integers
