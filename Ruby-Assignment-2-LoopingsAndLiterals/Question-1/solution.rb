@@ -17,7 +17,7 @@ def containsSuchElement(int_array)
 
     if sumOfNumbers(leftArray) == sumOfNumbers(rightArray)
       return true	
-  	end
+    end
   end
   false
 end
