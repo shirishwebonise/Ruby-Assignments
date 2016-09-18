@@ -24,6 +24,10 @@ def saveToFile(fileName, data, key)
 	end
 end
 
+def updateProduct(product)
+	saveToFile("inventory", product, product.id)
+end
+
 while true do
 	puts "are you.."
 	print "1 - costomer \n2 - shopkeeper\n=> "
@@ -121,6 +125,7 @@ while true do
 				print "\nenter new stock => "
 				stock = gets.chomp.to_i
 				inventory.setStockOfItem product_id, stock
+				updateProduct inventory.product product_id
 				print inventory.product product_id
 			when 6
 				exit
