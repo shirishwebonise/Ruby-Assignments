@@ -6,10 +6,6 @@ class ArticlesController < ApplicationController
     @articles = Article.all
   end
 
-  def index
-    @articles = Article.all
-  end
-
   def new
     @article = Article.new
   end
@@ -33,8 +29,9 @@ class ArticlesController < ApplicationController
   end
 
   def update
+    byebug
     @article = Article.find(params[:id])
-
+    byebug
     if @article.update(article_params)
       redirect_to @article
     else
