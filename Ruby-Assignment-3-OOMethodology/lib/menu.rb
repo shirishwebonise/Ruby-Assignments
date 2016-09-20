@@ -1,5 +1,5 @@
-require './order'
-require './product'
+require_relative 'order'
+require_relative 'product'
 
 module UserMenu
   $ONE = 1
