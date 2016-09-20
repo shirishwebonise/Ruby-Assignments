@@ -1,11 +1,12 @@
 require_relative 'collection'
 require_relative 'stack'
+require_relative 'queue_list'
 ##
 # Collection Manager Class to manage collections
 
 class CollectionManager
   def initialize
-    @currentId = 0;
+    @current_id = 0;
     @collections = Hash.new
   end
 
@@ -20,8 +21,8 @@ class CollectionManager
   #   a collection object, eg. Stack or Queue
   #   
   def add(collection)
-    @currentId = @currentId + 1
-    @collections[@currentId] = collection
+    @current_id += 1
+    @collections[@current_id] = collection
   end
 
   ##
