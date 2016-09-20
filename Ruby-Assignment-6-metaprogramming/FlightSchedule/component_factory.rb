@@ -1,6 +1,5 @@
 
 module ComponentFactory
-
   def self.createScheduleClass
     schedule = Class.new(Object) do
       def initialize
