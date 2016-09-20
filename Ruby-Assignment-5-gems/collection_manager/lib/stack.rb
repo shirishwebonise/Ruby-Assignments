@@ -5,31 +5,15 @@ require_relative 'list'
 
 class Stack < List
   def initialize(size = nil)
-    super()
-    @size = size
+    super(size)
   end
 
   ## 
-  # This method implements push functionality of a stack
+  # This method implements pop functionality of a stack (LIFO)
   #
   # Example:
   #   >> s = Stack.new
-  #   >> s.push("something")
-  #   >> s.push(20)
-
-  def push(object)
-    if(@size && @list.length >= @size)
-      puts "Stack full!"
-    else
-      @list.push(object)
-    end
-  end
-
-  ## 
-  # This method implements pop functionality of a stack
-  #
-  # Example:
-  #   >> s = Stack.new
+  #   >> s.push("else")
   #   >> s.push("something")
   #   >> s.pop()
   # => "something"
@@ -39,9 +23,5 @@ class Stack < List
     else
       @list.pop
     end
-  end
-
-  def to_s
-    @list
   end
 end
