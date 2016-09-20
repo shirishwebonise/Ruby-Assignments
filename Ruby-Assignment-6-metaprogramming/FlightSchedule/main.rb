@@ -1,5 +1,4 @@
 require './time_of_day'
-require './schedule'
 require './component_factory'
 
 INPUT_FILE_NAME = "./input.txt"
