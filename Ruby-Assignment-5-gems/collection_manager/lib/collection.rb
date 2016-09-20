@@ -1,5 +1,5 @@
 
 class Collection
-	def initialize
-	end
+  def initialize
+  end
 end
