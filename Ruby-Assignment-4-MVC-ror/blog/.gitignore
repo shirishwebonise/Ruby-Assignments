@@ -19,3 +19,17 @@
 
 # Ignore Byebug command history file.
 .byebug_history
+
+
+/config/database.yml
+
+# Ignore all logfiles and tempfiles.
+/log/*.log
+/tmp
+
+*~
+*.swp
+
+*.iml
+
+.credentials
