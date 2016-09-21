@@ -24,10 +24,10 @@ end
 input_file = File.open(INPUT_FILE_NAME)
 
 # read number of test cases
-total_cases = input_file.readline.chomp.to_i
+TOTAL_CASES = input_file.readline.chomp.to_i
 
 # the main flow of program
-total_cases.times do
+TOTAL_CASES.times do
   # read a line - number of elements in the array
   total_elements =  input_file.readline.chomp.to_i
 
