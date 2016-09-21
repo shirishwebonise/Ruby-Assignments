@@ -1,9 +1,9 @@
 Gem::Specification.new do |s|
   s.name        = 'collection_manager'
-  s.version     = '0.0.1'
-  s.date        = '2016-09-19'
-  s.summary     = "collection Manager for managing a collection of objects"
-  s.description = "collection Manager for managing a collection of objects"
+  s.version     = '0.0.3'
+  s.date        = '2016-09-21'
+  s.summary     = "Collection Manager for managing collections of objects"
+  s.description = "Collection Manager - create and add collections. Currently supports: Stack, QueueList(Queue)"
   s.authors     = ["Shirish Parsekar"]
   s.email       = 'shirish.parsekar@weboniselab.com'
   s.files       = Dir["lib/**/*"]
