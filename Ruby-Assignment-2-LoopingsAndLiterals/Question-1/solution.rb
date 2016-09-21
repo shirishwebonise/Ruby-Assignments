@@ -1,21 +1,19 @@
 
-input_file_name = "./input.txt"
+INPUT_FILE_NAME = "./input.txt"
 
 # method for calculating sum of array elements
-def sumOfNumbers(int_array)
-  if int_array
-    total = int_array.reduce(:+)
-  end
+def sum_of_numbers(int_array)
+  total = int_array.reduce(:+)
   total ? total : 0
 end
 
 # method to check the array for the required condition
-def containsSuchElement(int_array)
+def array_has_such_element(int_array)
   int_array.each_with_index do |item, index|
-    leftArray = int_array[0, index]
-    rightArray = int_array[index+1, int_array.length]
+    left_subarray = int_array[0, index]
+    right_subarray = int_array[index+1, int_array.length]
 
-    if sumOfNumbers(leftArray) == sumOfNumbers(rightArray)
+    if sum_of_numbers(left_subarray) == sum_of_numbers(right_subarray)
       return true	
     end
   end
@@ -23,7 +21,7 @@ def containsSuchElement(int_array)
 end
 
 # read file
-input_file = File.open(input_file_name)
+input_file = File.open(INPUT_FILE_NAME)
 
 # read number of test cases
 total_cases = input_file.readline.chomp.to_i
@@ -31,15 +29,14 @@ total_cases = input_file.readline.chomp.to_i
 # the main flow of program
 total_cases.times do
   # read a line - number of elements in the array
-  totalElements =  input_file.readline.chomp.to_i
+  total_elements =  input_file.readline.chomp.to_i
 
   # second line - the array elements
   # read the line, split, convert string elements into integers
-  line = input_file.readline.chomp
-  int_array = line.split.map{ |num| num.to_i }
+  int_array = input_file.readline.chomp.split.map{ |num| num.to_i }
 
   # check the array for given conditions
-  if( containsSuchElement(int_array) )
+  if( array_has_such_element(int_array) )
     puts "YES"
   else
     puts "NO"
