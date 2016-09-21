@@ -19,7 +19,7 @@ class QueueList < List
   # => "else"
   def remove()
     if(@list.length == 0)
-      puts "Queue empty!"
+      raise CollectionError::QueueUnderflowError.new
     else
       @list.shift
     end

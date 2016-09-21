@@ -1,8 +1,8 @@
 require_relative 'list'
+require_relative 'errors/collection_errors'
 
 ##
 # Stack class implementing a typical stack data structure
-
 class Stack < List
   def initialize(size = nil)
     super(size)
@@ -19,7 +19,7 @@ class Stack < List
   # => "something"
   def pop()
     if(@list.length == 0)
-      puts "Stack empty!"
+      raise CollectionErrors::StackUnderflowError.new
     else
       @list.pop
     end

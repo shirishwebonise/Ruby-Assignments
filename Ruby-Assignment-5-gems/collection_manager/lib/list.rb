@@ -12,10 +12,9 @@ class List < Collection
 
   ## 
   # This method appends an element to the list
-
   def push(object)
     if(@size && @list.length >= @size)
-      puts "Stack full!"
+      raise CollectionErrors::ListOverflowError.new
     else
       @list.push(object)
     end
