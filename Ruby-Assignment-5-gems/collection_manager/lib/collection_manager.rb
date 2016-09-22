@@ -39,7 +39,7 @@ class CollectionManager
   #
   def delete(index)
     obj = find index
-    @collections.delete(index)
+    @collections.delete(obj)
     obj = nil
   end
 
