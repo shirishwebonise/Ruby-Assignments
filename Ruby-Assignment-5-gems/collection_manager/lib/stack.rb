@@ -3,9 +3,13 @@ require_relative 'errors/collection_errors'
 
 ##
 # Stack class implementing a typical stack data structure
-class Stack < List
+class Stack
+  include CollectionErrors
+  include List
+
   def initialize(size = nil)
-    super(size)
+    @list = Array.new
+    @size = size
   end
 
   ## 
@@ -19,7 +23,7 @@ class Stack < List
   # => "something"
   def pop()
     if(@list.length == 0)
-      raise CollectionErrors::StackUnderflowError.new
+      min_size_error(self.class)
     else
       @list.pop
     end

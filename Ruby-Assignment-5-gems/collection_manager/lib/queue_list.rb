@@ -1,11 +1,15 @@
 require_relative 'list'
+require_relative 'errors/collection_errors'
 
 ##
 # QueueList class implementing a typical Queue data structure
+class QueueList
+  include CollectionErrors
+  include List
 
-class QueueList < List
   def initialize(size = nil)
-    super(size)
+    @list = Array.new
+    @size = size
   end
 
   ## 
@@ -19,7 +23,7 @@ class QueueList < List
   # => "else"
   def remove()
     if(@list.length == 0)
-      raise CollectionError::QueueUnderflowError.new
+      min_size_error(self.class)
     else
       @list.shift
     end

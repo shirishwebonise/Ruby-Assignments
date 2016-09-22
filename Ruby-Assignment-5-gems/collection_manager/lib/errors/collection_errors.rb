@@ -1,27 +1,15 @@
 
 module CollectionErrors
-  class ListError < StandardError
-    def initialize(msg)
-      msg = "ListError... " + msg
-      super(msg)
-    end
+  def not_a_class_error(class_name)
+    puts "Cannot instantiate: " + class_name.to_s
+    puts "No such class exists"
   end
 
-  class ListOverflowError < ListError
-    def initialize(msg="List overflow condition reached")
-      super(msg)
-    end
+  def max_size_error(collection_type="Collection")
+    puts collection_type.to_s + " is full!"
   end
 
-  class StackUnderflowError < ListError
-    def initialize(msg="Stack underflow condition reached")
-      super(msg)
-    end
-  end
-
-  class QueueUnderflowError < ListError
-    def initialize(msg="Queue underflow condition reached")
-      super(msg)
-    end
+  def min_size_error(collection_type="Collection")
+    puts collection_type.to_s + " is empty!"
   end
 end

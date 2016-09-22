@@ -1,13 +1,13 @@
-require_relative 'collection'
 require_relative 'stack'
 require_relative 'queue_list'
+require_relative 'errors/collection_errors'
 ##
 # Collection Manager Class to manage collections
 
 class CollectionManager
+  include CollectionErrors
   def initialize
-    @current_id = 0;
-    @collections = Hash.new
+    @collections = Array.new
   end
 
   ##
@@ -20,9 +20,12 @@ class CollectionManager
   # Arguments:
   #   a collection object, eg. Stack or Queue
   #   
-  def add(collection)
-    @current_id += 1
-    @collections[@current_id] = collection
+  def add(collection_name, size=nil)
+    begin
+      @collections.push( Object.const_get(collection_name).new(size) )
+    rescue
+      not_a_class_error(collection_name)
+    end
   end
 
   ##
@@ -34,8 +37,10 @@ class CollectionManager
   # Arguments:
   #   id of the collection
   #
-  def delete(id)
-    @collections.delete(id)
+  def delete(index)
+    obj = find index
+    @collections.delete(index)
+    obj = nil
   end
 
   ##
@@ -47,8 +52,8 @@ class CollectionManager
   # Arguments:
   #   id of the collection
   #
-  def find(id)
-    @collections[id]
+  def find(index)
+    @collections[index]
   end
 
   ##
