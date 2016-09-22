@@ -1,13 +1,13 @@
 
 module FileOps
   # Read the give file and create objects
-  def self.readFile(fileName)
-    dbStore = PStore.new(fileName)
+  def self.read_file(file_name)
+    db_store = PStore.new(file_name)
     data = Array.new 
 
-    dbStore.transaction(true) do
-      dbStore.roots.each do |data_root_name|
-        data.push dbStore[data_root_name]
+    db_store.transaction(true) do
+      db_store.roots.each do |data_root_name|
+        data.push db_store[data_root_name]
       end
     end
 
@@ -15,20 +15,20 @@ module FileOps
   end
 
   # write data to file
-  def self.saveToFile(fileName, data, key)
-    dbStore = PStore.new(fileName)
+  def self.save_to_file(file_name, data, key)
+    db_store = PStore.new(file_name)
 
-    dbStore.transaction do
-      dbStore[key] = data
+    db_store.transaction do
+      db_store[key] = data
     end
   end
 
   # remove data from file
-  def self.deleteFromFile(fileName, object)
-    fileContent = PStore.new(fileName)
+  def self.delete_from_file(file_name, object)
+    file_content = PStore.new(file_name)
 
-    fileContent.transaction do
-      fileContent.delete(object)
+    file_content.transaction do
+      file_content.delete(object)
     end
   end
 end

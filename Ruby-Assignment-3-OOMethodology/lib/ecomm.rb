@@ -12,16 +12,16 @@ ORDERS_FILE = "orders"
 
 def play
   inventory = Inventory.new
-  FileOps.readFile(INVENTORY_FILE).each{|product| inventory.add(product)}
+  FileOps.read_file(INVENTORY_FILE).each{|product| inventory.add(product)}
 
-  searchAction = Proc.new do
+  search_action = Proc.new do
     print "\nenter product name to search "
     search_name = gets.chomp
-    inventory.searchWithName(search_name).each {|product| puts product.to_s}
+    inventory.search_with_name(search_name).each {|product| puts product.to_s}
   end
 
   while true do
-    UserMenu.displayMenuTypeOfUser
+    UserMenu.display_menu_type_of_user
     type_of_user = gets.chomp.to_i
 
     if !([1,2].include? type_of_user)
@@ -30,23 +30,23 @@ def play
     end
 
     if type_of_user == $ONE
-      UserMenu.greetCustomer
+      UserMenu.greet_customer
 
       while true do
-        UserMenu.displayCustomerMenu
+        UserMenu.display_customer_menu
 
         selected_option = gets.chomp.to_i
 
         case selected_option
         when $ONE
-          inventory.listProducts
+          inventory.list_products
         when $TWO
-          searchAction.call
+          search_action.call
         when $THREE
-          order = UserMenu.getOrderInfo
-          if inventory.decrementStock(order.productId)
-            FileOps.saveToFile(ORDERS_FILE, order, order.id)
-            FileOps.saveToFile(INVENTORY_FILE, inventory.product(order.productId), order.productId)
+          order = UserMenu.get_order_info
+          if inventory.decrement_stock(order.product_id)
+            FileOps.save_to_file(ORDERS_FILE, order, order.id)
+            FileOps.save_to_file(INVENTORY_FILE, inventory.product(order.product_id), order.product_id)
             puts "Order Placed!"
           else
             puts "Product is out of stock!"
@@ -59,30 +59,30 @@ def play
       end
     else
       while true do
-        UserMenu.displayShopkeeperMenu
+        UserMenu.display_shopkeeper_menu
 
         selected_option = gets.chomp.to_i
 
         case selected_option
         when $ONE
-          product = UserMenu.getProductInfo
+          product = UserMenu.get_product_info
           inventory.add product
           print product
-          FileOps.saveToFile(INVENTORY_FILE, product, product.id)
+          FileOps.save_to_file(INVENTORY_FILE, product, product.id)
         when $TWO
           print "\nenter product id of product to remove "
           product_id = gets.chomp
-          productToRemove = inventory.product product_id
+          product_to_remove = inventory.product product_id
           inventory.remove product_id
-          FileOps.deleteFromFile(INVENTORY_FILE, productToRemove)
+          FileOps.delete_from_file(INVENTORY_FILE, product_to_remove)
         when $THREE
-          inventory.listProducts
+          inventory.list_products
         when $FOUR
-          searchAction.call
+          search_action.call
         when $FIVE
           print "\nEnter info of product to update "
-          newProductInfo = UserMenu.getProductNewInfo
-          FileOps.saveToFile(INVENTORY_FILE, newProductInfo, newProductInfo.id)
+          new_product_info = UserMenu.get_product_new_info
+          FileOps.save_to_file(INVENTORY_FILE, new_product_info, new_product_info.id)
           print inventory.product(product_id)
         when $SIX
           exit

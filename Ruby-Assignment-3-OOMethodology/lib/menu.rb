@@ -9,18 +9,18 @@ module UserMenu
   $FIVE = 5
   $SIX = 6
 
-  def self.greetCustomer
+  def self.greet_customer
     puts "\nHello customer!"
   end
 
-  def self.displayMenuTypeOfUser
+  def self.display_menu_type_of_user
     puts "are you.."
     puts "1 - costomer"
     puts "2 - shopkeeper"
     print "=> "
   end
 
-  def self.displayCustomerMenu
+  def self.display_customer_menu
     puts "\nwhat's your wish?"
     puts "  1 - see products"
     puts "  2 - search for a product"
@@ -29,7 +29,7 @@ module UserMenu
     print "=> "
   end
 
-  def self.getOrderInfo
+  def self.get_order_info
     print "\nenter order id "
     order_id = gets.chomp
     print "\nenter product id "
@@ -44,7 +44,7 @@ module UserMenu
     return order
   end
 
-  def self.displayShopkeeperMenu
+  def self.display_shopkeeper_menu
     puts "\nenter your choice"
     puts "  1 - add a product"
     puts "  2 - remove a product"
@@ -55,7 +55,7 @@ module UserMenu
     print "=> "
   end
 
-  def self.getProductInfo
+  def self.get_product_info
     print "\nenter product id "
     id = gets.chomp
     print "\nenter product name "
@@ -70,7 +70,7 @@ module UserMenu
     return product
   end
 
-  def self.getProductNewInfo
-    self.getProductInfo
+  def self.get_product_new_info
+    self.get_product_info
   end
 end
