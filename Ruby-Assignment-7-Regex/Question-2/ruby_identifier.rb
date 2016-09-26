@@ -5,7 +5,7 @@ class RubyIdentifier
     file_path = file_path.to_s
     file = open_file(file_path)
     file_contents = file.read
-    match_code(file_contents)
+    match_code(file_contents.to_s)
   end
 
   private
@@ -18,12 +18,9 @@ class RubyIdentifier
     end
 
     def match_code(file_contents)
-      match = /
-        (?<class>
-          \bclass\b
-        )
-      /x.match(file_contents)
-      puts "found a class: "+match.to_s if match
+      match = /(?:class \w*[[:space:]]*(?<method>def [a-z_]*[[:space:]]*end[[:space:]]*)\g<method>\g<method>[[:space:]]*end[[:space:]]*)/.match(file_contents)
+      puts "found a class:" if match
+      print match
     end
 end
 
