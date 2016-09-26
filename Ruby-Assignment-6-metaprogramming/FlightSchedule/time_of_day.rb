@@ -9,11 +9,11 @@ class TimeOfDay
     @hours*60 + @minutes
   end
 
-  def <(otherTime)
-    time < otherTime.time
+  def <(other_time)
+    time < other_time.time
   end
 
-  def >(otherTime)
+  def >(other_time)
     time > otherTime.time
   end
 

@@ -1,6 +1,6 @@
-
+# dynamically creates components like classes and methods
 module ComponentFactory
-  def self.createScheduleClass
+  def self.create_schedule_class
     schedule = Class.new(Object) do
       def initialize
         @flight_timings = Array.new
@@ -8,21 +8,21 @@ module ComponentFactory
     end
 
     schedule.class_eval do
-      def addFlight(arrival_time, departure_time)
+      def add_flight(arrival_time, departure_time)
         @flight_timings.push({ arrival: arrival_time, departure: departure_time})
       end
     end
 
     schedule.class_eval do
       private
-        def sortTimings
+        def sort_timings
           @flight_timings = @flight_timings.sort_by { |flight_timing| flight_timing[:arrival].time }
         end
     end
 
     schedule.class_eval do
       def no_of_platforms
-        sortTimings()
+        sort_timings()
         flights_stack = Array.new
         max_platforms = 0;
 

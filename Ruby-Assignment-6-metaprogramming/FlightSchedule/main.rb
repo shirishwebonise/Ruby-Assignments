@@ -9,15 +9,20 @@ input_file = File.open(INPUT_FILE_NAME)
 # read number of test cases
 TOTAL_FLIGHTS = input_file.readline.chomp.to_i
 
-Schedule = ComponentFactory.createScheduleClass()
+# create Schedule class using metaprogramming
+Schedule = ComponentFactory.create_schedule_class()
 
+# create object of that newely created class
 schedule = Schedule.new
 
 # read flight timings from the file
 TOTAL_FLIGHTS.times do
+  # arriaval time
   line1 = input_file.readline.chomp
+
+  #departure time
   line2 = input_file.readline.chomp
-  schedule.addFlight(TimeOfDay.new(line1), TimeOfDay.new(line2))
+  schedule.add_flight(TimeOfDay.new(line1), TimeOfDay.new(line2))
 end
 
 max_platforms = schedule.no_of_platforms
