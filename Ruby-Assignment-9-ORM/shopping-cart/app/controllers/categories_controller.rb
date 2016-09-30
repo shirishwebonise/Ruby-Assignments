@@ -11,6 +11,6 @@ class CategoriesController
   end
 
   def self.create(params)
-    category = Category.new(params)
+    category = Category.create(params)
   end
 end

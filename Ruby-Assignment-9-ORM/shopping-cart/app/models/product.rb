@@ -1,5 +1,5 @@
 require 'app/models/model'
 
 class Product < Model
-  has_one :category
+  belongs_to :category
 end

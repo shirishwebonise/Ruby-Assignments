@@ -1,5 +1,7 @@
+require 'json'
+
 class Action
-  attr_reader :headers, :body, :request
+  attr_reader :headers, :body, :request, :form_data
 
   def initialize(&block)
     @block = block
@@ -16,10 +18,14 @@ class Action
     request.params
   end
 
+  def form_data
+    @form_data
+  end
+
   def call(env)
-    p env
     @request = Rack::Request.new(env)
     @body = self.instance_eval(&@block)
+    @form_data = env["rack.request.form_hash"]
     [status, headers, [body]]
   end
 end

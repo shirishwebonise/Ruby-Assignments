@@ -1,77 +1,70 @@
+require 'byebug'
 require 'yaml'
-require 'logger'
 require 'active_record'
+require_relative 'config/db_connection_manager'
+require 'zlib'
 
 namespace :db do
-  def create_database config
-    options = {:charset => 'utf8', :collation => 'utf8_unicode_ci'}
+  $environment = 'development'
+  db_config = YAML::load(File.open('config/database.yml'))[$environment]
 
-    create_db = lambda do |config|
-      ActiveRecord::Base.establish_connection config.merge('database' => nil)
-      ActiveRecord::Base.connection.create_database config['database'], options
-      ActiveRecord::Base.establish_connection config
+  desc "Create the database"
+  task :create do
+    DBConnectionManager::connect_default
+    ActiveRecord::Base.connection.create_database(db_config['database'])
+    puts "Database created"
+  end
+
+  desc "Drop the database"
+  task :drop do
+    DBConnectionManager::connect_default
+    ActiveRecord::Base.connection.drop_database(db_config['database'])
+    puts "Database deleted"
+  end
+
+  desc "Migrate the database"
+  task :migrate do
+    DBConnectionManager::connect
+    ActiveRecord::Migrator.migrate("db/migrate/")
+    Rake::Task["db:schema"].invoke
+    puts "Database migrated"
+  end
+
+  desc "Reset the database"
+  task :reset => [:drop, :create, :migrate]
+
+  desc 'Create a db/schema.rb file that is portable against any DB supported by AR'
+  task :schema do
+    DBConnectionManager::connect
+    require 'active_record/schema_dumper'
+    filename = "db/schema.rb"
+    File.open(filename, "w:utf-8") do |file|
+      ActiveRecord::SchemaDumper.dump(ActiveRecord::Base.connection, file)
+    end
+  end
+
+end
+
+namespace :g do
+  desc "Generate migration"
+  task :migration do
+    name = ARGV[1] || raise("Specify name: rake g:migration your_migration")
+    timestamp = Time.now.strftime("%Y%m%d%H%M%S")
+    path = File.expand_path("../db/migrate/#{timestamp}_#{name}.rb", __FILE__)
+    migration_class = name.split("_").map(&:capitalize).join
+
+    File.open(path, 'w') do |file|
+      file.write <<-EOF
+class #{migration_class} < ActiveRecord::Migration[5.0]
+  def self.up
+  end
+  def self.down
+  end
+end
+      EOF
     end
 
-    begin
-      create_db.call config
-    rescue Mysql::Error => sqlerr
-      if sqlerr.errno == 1405
-        print "#{sqlerr.error}. \nPlease provide the root password for your mysql installation\n>"
-        root_password = $stdin.gets.strip
-
-        grant_statement = <<-SQL
-          GRANT ALL PRIVILEGES ON #{config['database']}.*
-            TO '#{config['username']}'@'localhost'
-            IDENTIFIED BY '#{config['password']}' WITH GRANT OPTION;
-        SQL
-
-        create_db.call config.merge('database' => articles, 'username' => 'root', 'password' => 'webonise123#')
-      else
-        $stderr.puts sqlerr.error
-        $stderr.puts "Couldn't create database for #{config.inspect}, charset: utf8, collation: utf8_unicode_ci"
-        $stderr.puts "(if you set the charset manually, make sure you have a matching collation)" if config['charset']
-      end
-    end
-  end
-
-  task :environment do
-    DATABASE_ENV = ENV['DATABASE_ENV'] || 'development'
-    MIGRATIONS_DIR = ENV['MIGRATIONS_DIR'] || 'db/migrate'
-  end
-
-  task :configuration => :environment do
-    @config = YAML.load_file('config/database.yml')[DATABASE_ENV]
-  end
-
-  task :configure_connection => :configuration do
-    ActiveRecord::Base.establish_connection @config
-    ActiveRecord::Base.logger = Logger.new STDOUT if @config['logger']
-  end
-
-  desc 'Create the database from config/database.yml for the current DATABASE_ENV'
-  task :create => :configure_connection do
-    create_database @config
-  end
-
-  desc 'Drops the database for the current DATABASE_ENV'
-  task :drop => :configure_connection do
-    ActiveRecord::Base.connection.drop_database @config['database']
-  end
-
-  desc 'Migrate the database (options: VERSION=x, VERBOSE=false).'
-  task :migrate => :configure_connection do
-    ActiveRecord::Migration.verbose = true
-    ActiveRecord::Migrator.migrate MIGRATIONS_DIR, ENV['VERSION'] ? ENV['VERSION'].to_i : nil
-  end
-
-  desc 'Rolls the schema back to the previous version (specify steps w/ STEP=n).'
-  task :rollback => :configure_connection do
-    step = ENV['STEP'] ? ENV['STEP'].to_i : 1
-    ActiveRecord::Migrator.rollback MIGRATIONS_DIR, step
-  end
-
-  desc "Retrieves the current schema version number"
-  task :version => :configure_connection do
-    puts "Current version: #{ActiveRecord::Migrator.current_version}"
+    puts "Migration #{path} created"
+    abort # needed stop other tasks
   end
 end

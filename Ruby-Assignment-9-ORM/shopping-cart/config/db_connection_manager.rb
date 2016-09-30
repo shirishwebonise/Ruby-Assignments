@@ -6,4 +6,9 @@ module DBConnectionManager
     @dbconfig = YAML.load(File.read('config/database.yml'))
     ActiveRecord::Base.establish_connection @dbconfig[$environment]
   end
+
+  def self.connect_default
+    @dbconfig = YAML.load(File.read('config/database.yml'))
+    ActiveRecord::Base.establish_connection @dbconfig[$environment].merge('database' => nil)
+  end
 end

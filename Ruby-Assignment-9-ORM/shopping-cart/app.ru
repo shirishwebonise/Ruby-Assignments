@@ -7,14 +7,16 @@ $environment = 'development'
 
 DBConnectionManager::connect
 
-route("/categories/create") do
+route("/categories#create") do
   status 200
-  CategoriesController.new(params)
+  CategoriesController.new(form_data)
 end
 
 route("/categories") do
   status 200
   CategoriesController.find(params['id'])
 end
+
+
 
 run Framework.app

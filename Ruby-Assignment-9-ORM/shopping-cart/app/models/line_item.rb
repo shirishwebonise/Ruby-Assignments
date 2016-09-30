@@ -1,5 +1,5 @@
 require 'app/models/model'
 
 class LineItem < Model
-  belongs_to :cart
+  has_one :product
 end
