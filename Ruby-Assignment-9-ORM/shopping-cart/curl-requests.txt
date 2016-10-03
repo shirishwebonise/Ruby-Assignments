@@ -1,0 +1,7 @@
+1) categories
+  GET:
+    curl http://localhost:9292/products
+    curl http://localhost:9292/products/2
+
+  POST:
+    curl -X POST -H "Content-Type: application/json" -d "{'name': 'somename', 'description': 'somedesc', 'tax': '12'}" http://localhost:9292/categories

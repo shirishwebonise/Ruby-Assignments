@@ -12,4 +12,8 @@ class Products < ActiveRecord::Migration[5.0]
 
     puts 'Created table Products'
   end
+
+  def self.down
+    drop_table :products
+  end
 end

@@ -1,7 +1,10 @@
 require 'config/request'
+require 'config/request_handler'
+require 'byebug'
 Dir["app/controllers/*_controller.rb"].each {|file| require file }
 
 class Router
+  include RequestHandler
   @@content_type = {'Content-Type' => 'text/json'}
   @@NOT_FOUND = 404
 
@@ -14,37 +17,20 @@ class Router
     def handle_request
       resp_status = 202
 
-      case @request.path.split('/')[1]
-      when 'categories'
-        resp_data = handle_get_request 'categories' if @request.method == "GET"
-      when 'products'
-        resp_data = handle_get_request 'products' if @request.method == "GET"
+      section = @request.path.split('/')[1]
+      case @request.method
+      when "GET"
+        resp_data = handle_get_request section, @request
+      when "POST"
+        resp_data = handle_post_request section, @request
+      when "PATCH"
+        resp_data = handle_patch_request section, @request
+      when "DELETE"
+        resp_data = handle_patch_request section, @request
       else
-        resp_data = "Not Found".to_json
-        resp_status = @@NOT_FOUND
+        resp_status = 501 # not implemented/not supported
       end
 
       [resp_status, @@content_type, [resp_data]]
-    end
-
-    def handle_get_request(controller)
-      data = []
-
-      case @request.path.split('/')[2]
-      when nil
-        data = instance_of(controller).index
-      when /^[0-9]+$/
-        data = instance_of(controller).find(@request.params[:id])
-      else
-        data = nil
-      end
-
-      data
-    end
-
-    def instance_of(controller)
-      controller_name = controller.capitalize+"Controller"
-      puts controller_name
-      Object.const_get(controller_name).new
     end
 end
