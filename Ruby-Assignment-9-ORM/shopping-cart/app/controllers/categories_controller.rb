@@ -1,16 +1,23 @@
 require 'app/models/category'
 
 class CategoriesController
-  def self.find(id=nil)
-    if !id.nil?
-      categories = Category.find(id)
-    else
-      categories = Category.all
-    end
-    categories.to_json
+  def index
+    Category.all.to_json
   end
 
-  def self.create(params)
-    category = Category.create(params)
+  def show(id)
+    Category.find(id).to_json
+  end
+
+  def create(params)
+    Category.create(params).to_json
+  end
+
+  def update(params)
+    Category.find(params[:id]).update(params).to_json
+  end
+
+  def destroy(id)
+    Category.find(id).destroy.to_json
   end
 end
