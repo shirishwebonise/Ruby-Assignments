@@ -1,7 +1,44 @@
-1) categories
+1) CATEGORIES
   GET:
     curl http://localhost:9292/categories
     curl http://localhost:9292/categories/2
 
   POST:
-    curl -X POST -H "Content-Type: text/json" --form "{'name': 'somename', 'description': 'somedesc', 'tax': '12'}" http://localhost:9292/categories
+    curl -X POST -H "Content-Type: text/json" -d "{'name': 'somename', 'description': 'somedesc', 'tax': '12'}" http://localhost:9292/categories
+
+  UPDATE:
+    curl -X PATCH -H "Content-Type: text/json" -d "{'name': 'someothername', 'description': 'somedesc', 'tax': '12'}" http://localhost:9292/categories/
+
+  DELETE:
+     curl -X DELETE -H "Content-Type: text/json" http://localhost:9292/categories/6
+
+2) PRODUCTS
+  GET:
+    curl http://localhost:9292/categories
+    curl http://localhost:9292/categories/2
+
+  POST:
+    curl -X POST -H "Content-Type: text/json" -d "{'name': 'some_prod', 'description': 'product description', 'price': '340', 'discount': '23', 'category_id': '2'}" http://localhost:9292/products
+
+  UPDATE:
+    curl -X PATCH -H "Content-Type: text/json" -d "{'name': 'some_prod', 'description': 'product description', 'price': '340', 'discount': '23', 'category_id': '2'}" http://localhost:9292/products/5
+
+  DELETE:
+    curl -X DELETE -H "Content-Type: text/json" http://localhost:9292/products/5
+
+3) CART
+  POST:
+    curl -X POST -H "Content-Type: text/json" http://localhost:9292/carts
+
+  DELETE:
+    curl -X DELETE -H "Content-Type: text/json" http://localhost:9292/carts/1
+
+  UPDATE:
+    curl -X PATCH -H "Content-Type: text/json" -d http://localhost:9292/carts/1/add/1
+    curl -X PATCH -H "Content-Type: text/json" -d http://localhost:9292/carts/1/remove/1
+
+  GET:
+    curl http://localhost:9292/carts/1
+    curl http://localhost:9292/carts/total
+    curl http://localhost:9292/carts/discount
+    curl http://localhost:9292/carts/tax

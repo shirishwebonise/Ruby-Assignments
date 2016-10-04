@@ -26,7 +26,8 @@ module RequestHandler
   end
 
   def handle_patch_request(controller, request)
-
+    id_parameter = request.path.split('/')[2]
+    instance_of(controller).update(request.params, id_parameter) if !id_parameter.nil?
   end
 
   private

@@ -13,8 +13,8 @@ class CategoriesController
     Category.create(params).to_json
   end
 
-  def update(params)
-    Category.find(params[:id]).update(params).to_json
+  def update(params, id)
+    Category.find(id).update(params).to_json
   end
 
   def destroy(id)

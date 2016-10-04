@@ -15,7 +15,8 @@ class Router
 
   private
     def handle_request
-      resp_status = 202
+      resp_status = 200
+
       section = @request.path.split('/')[1]
       case @request.method
       when "GET"
@@ -28,6 +29,7 @@ class Router
         resp_data = handle_delete_request section, @request
       else
         resp_status = 501 # not implemented/not supported
+        resp_data = "Method not implemented"
       end
 
       [resp_status, @@content_type, [resp_data]]

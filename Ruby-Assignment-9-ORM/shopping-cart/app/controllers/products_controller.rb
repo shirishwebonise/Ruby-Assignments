@@ -13,8 +13,8 @@ class ProductsController
     Product.create(params).to_json
   end
 
-  def update(params)
-    Product.find(params[:id]).update(params).to_json
+  def update(params, id)
+    Product.find(id).update(params).to_json
   end
 
   def destroy(id)
