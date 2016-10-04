@@ -9,14 +9,13 @@ class Router
   @@NOT_FOUND = 404
 
   def call(env)
-    @request = Request.new Rack::Request.new(env)
+    @request = Request.new(Rack::Request.new(env))
     @response = handle_request
   end
 
   private
     def handle_request
       resp_status = 202
-
       section = @request.path.split('/')[1]
       case @request.method
       when "GET"
@@ -26,7 +25,7 @@ class Router
       when "PATCH"
         resp_data = handle_patch_request section, @request
       when "DELETE"
-        resp_data = handle_patch_request section, @request
+        resp_data = handle_delete_request section, @request
       else
         resp_status = 501 # not implemented/not supported
       end

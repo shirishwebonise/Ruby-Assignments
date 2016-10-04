@@ -1,7 +1,7 @@
 1) categories
   GET:
-    curl http://localhost:9292/products
-    curl http://localhost:9292/products/2
+    curl http://localhost:9292/categories
+    curl http://localhost:9292/categories/2
 
   POST:
-    curl -X POST -H "Content-Type: application/json" -d "{'name': 'somename', 'description': 'somedesc', 'tax': '12'}" http://localhost:9292/categories
+    curl -X POST -H "Content-Type: text/json" --form "{'name': 'somename', 'description': 'somedesc', 'tax': '12'}" http://localhost:9292/categories

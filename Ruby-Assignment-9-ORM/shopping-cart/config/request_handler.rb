@@ -1,4 +1,4 @@
-
+require 'byebug'
 module RequestHandler
   def handle_get_request(controller, request)
     data = []
@@ -17,11 +17,12 @@ module RequestHandler
   end
 
   def handle_post_request(controller, request)
-    instance_of(controller).create(request.form_data)
+    instance_of(controller).create(request.params)
   end
 
   def handle_delete_request(controller, request)
-
+    id_parameter = request.path.split('/')[2]
+    instance_of(controller).destroy(id_parameter) if !id_parameter.nil?
   end
 
   def handle_patch_request(controller, request)
