@@ -26,6 +26,15 @@ module RequestHandler
   end
 
   def handle_patch_request(controller, request)
+    byebug
+    split_path = request.path.split('/')
+    if split_path.length == 5
+      order_id = split_path[2]
+      product_id = split_path[4]
+      return OrdersController.new.add_to_cart(order_id, product_id) if request.path.split('/')[3] == 'add'
+      return OrdersController.new.remove_from_cart(order_id, product_id) if request.path.split('/')[3] == 'remove'
+    end
+    byebug
     id_parameter = request.path.split('/')[2]
     instance_of(controller).update(request.params, id_parameter) if !id_parameter.nil?
   end
